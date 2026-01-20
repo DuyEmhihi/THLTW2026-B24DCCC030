@@ -1,5 +1,5 @@
 import { type ApexOptions } from 'apexcharts';
-
+import { Table } from 'antd';
 export * from './ColumnChart';
 export * from './DonutChart';
 export * from './LineChart';
@@ -21,3 +21,4 @@ export type DataChartType = {
 
 	otherOptions?: ApexOptions;
 };
+
