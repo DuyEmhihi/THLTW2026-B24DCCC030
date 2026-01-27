@@ -48,6 +48,12 @@
 		icon: 'ShoppingOutlined',
 		component: './Bai1',
 	},
+	{
+		path: '/bai2',
+		name: 'Bai2',
+		icon: 'ShoppingCartOutlined',
+		component: './Bai2',
+	},
 
 	// DANH MUC HE THONG
 	// {
