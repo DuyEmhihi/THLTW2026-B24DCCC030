@@ -60,9 +60,19 @@
 		component: './TH01',
 	},
 	{
+		path: '/th01-b2',
+		name: 'TH01-Bai2',
+		component: './TH01_b2',
+	},
+	{
 		path: '/th02',
+		name: 'TH02-Bai1',
+		component: './Th02_b1',
+	},
+	{
+		path: '/th02-b2',
 		name: 'TH02-Bai2',
-		component: './TH02',
+		component: './TH02_b2',
 	},
 
 	// DANH MUC HE THONG
