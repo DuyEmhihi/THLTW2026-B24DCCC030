@@ -73,6 +73,12 @@
 		path: '/th02-b2',
 		name: 'TH02-Bai2',
 		component: './TH02_b2',
+		},
+	{
+		path: '/th3',
+		name: 'TH3',
+		icon: 'CalendarOutlined',
+		component: './TH3',
 	},
 
 	// DANH MUC HE THONG
