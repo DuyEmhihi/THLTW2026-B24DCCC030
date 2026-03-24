@@ -80,6 +80,12 @@
 		icon: 'CalendarOutlined',
 		component: './TH3',
 	},
+	{
+		path: '/th04',
+		name: 'TH04 - Quản lý văn bằng',
+		icon: 'FileTextOutlined',
+		component: './TH04',
+	},
 
 	// DANH MUC HE THONG
 	// {
