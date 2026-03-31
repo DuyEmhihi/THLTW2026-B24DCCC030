@@ -77,14 +77,17 @@
 	{
 		path: '/th3',
 		name: 'TH3',
-		icon: 'CalendarOutlined',
 		component: './TH3',
 	},
 	{
 		path: '/th04',
-		name: 'TH04 - Quản lý văn bằng',
-		icon: 'FileTextOutlined',
+		name: 'TH04',
 		component: './TH04',
+	},
+	{
+		path: '/th05',
+		name: 'TH05',
+		component: './TH05',
 	},
 
 	// DANH MUC HE THONG
