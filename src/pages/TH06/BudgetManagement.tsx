@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import {
   Row,
   Col,
@@ -21,23 +21,31 @@ import {
   CoffeeOutlined,
   FundOutlined,
 } from '@ant-design/icons';
-import { BudgetBreakdown, BudgetAlert } from './models';
+import { BudgetAlert } from './models';
 import styles from './styles.less';
 
 interface BudgetManagementProps {
-  budgets?: BudgetBreakdown[];
+  budgetItems?: BudgetAlert[];
 }
 
-// Simple mock chart component (you can replace with echarts/recharts)
-const BudgetChart: React.FC<{ data: BudgetBreakdown }> = ({ data }) => {
-  const total = data.total || 1;
-  const categories = [
-    { name: 'Ăn Uống', value: data.food, icon: <CoffeeOutlined /> },
-    { name: 'Lưu Trú', value: data.accommodation, icon: <HomeOutlined /> },
-    { name: 'Di Chuyển', value: data.transport, icon: <CarOutlined /> },
-    { name: 'Hoạt Động', value: data.activities, icon: <FundOutlined /> },
-    { name: 'Khác', value: data.other, icon: <ShoppingOutlined /> },
-  ];
+// Simple chart component using budget items
+const BudgetChart: React.FC<{ budgetItems: BudgetAlert[] }> = ({ budgetItems }) => {
+  const total = budgetItems.reduce((sum, item) => sum + item.current, 0) || 1;
+  const categories = budgetItems.map(item => {
+    const categoryMap = {
+      food: { name: 'Ăn Uống', icon: <CoffeeOutlined /> },
+      accommodation: { name: 'Lưu Trú', icon: <HomeOutlined /> },
+      transport: { name: 'Di Chuyển', icon: <CarOutlined /> },
+      activities: { name: 'Hoạt Động', icon: <FundOutlined /> },
+      other: { name: 'Khác', icon: <ShoppingOutlined /> },
+    };
+    const cat = categoryMap[item.category];
+    return {
+      name: cat.name,
+      value: item.current,
+      icon: cat.icon,
+    };
+  });
 
   return (
     <div>
@@ -61,81 +69,33 @@ const BudgetChart: React.FC<{ data: BudgetBreakdown }> = ({ data }) => {
   );
 };
 
-export const BudgetManagement: React.FC<BudgetManagementProps> = ({ budgets = [] }) => {
-  // Mock data
-  const mockBudget: BudgetBreakdown = {
-    food: 1500000,
-    accommodation: 3200000,
-    transport: 800000,
-    activities: 500000,
-    other: 300000,
-    total: 6300000,
-  };
+export const BudgetManagement: React.FC<BudgetManagementProps> = ({ budgetItems = [] }) => {
 
-  const totalBudget = 7000000;
-  const usedBudget = mockBudget.total;
+  const totalBudget = budgetItems.reduce((sum, item) => sum + item.limit, 0);
+  const usedBudget = budgetItems.reduce((sum, item) => sum + item.current, 0);
   const remainingBudget = totalBudget - usedBudget;
-  const budgetUsagePercent = (usedBudget / totalBudget) * 100;
+  const budgetUsagePercent = totalBudget > 0 ? (usedBudget / totalBudget) * 100 : 0;
 
-  const budgetAlerts: BudgetAlert[] = [
-    {
-      id: '1',
-      category: 'accommodation',
-      limit: 3000000,
-      current: 3200000,
-      exceeded: true,
-    },
-    {
-      id: '2',
-      category: 'food',
-      limit: 1800000,
-      current: 1500000,
-      exceeded: false,
-    },
-  ];
+  const budgetAlerts = budgetItems.filter(item => item.exceeded);
 
-  const categoryDetails = [
-    {
-      key: 'food',
-      name: 'Ăn Uống',
-      icon: <CoffeeOutlined />,
-      amount: mockBudget.food,
-      limit: 1800000,
-      icon_color: '#1890ff',
-    },
-    {
-      key: 'accommodation',
-      name: 'Lưu Trú',
-      icon: <HomeOutlined />,
-      amount: mockBudget.accommodation,
-      limit: 3000000,
-      icon_color: '#52c41a',
-    },
-    {
-      key: 'transport',
-      name: 'Di Chuyển',
-      icon: <CarOutlined />,
-      amount: mockBudget.transport,
-      limit: 1000000,
-      icon_color: '#faad14',
-    },
-    {
-      key: 'activities',
-      name: 'Hoạt Động',
-      icon: <FundOutlined />,
-      amount: mockBudget.activities,
-      limit: 600000,
-      icon_color: '#f5222d',
-    },
-    {
-      key: 'other',
-      name: 'Khác',
-      icon: <ShoppingOutlined />,
-      amount: mockBudget.other,
-      limit: 500000,
-      icon_color: '#722ed1',
-    },
-  ];
+  const categoryDetails = budgetItems.map(item => {
+    const categoryMap = {
+      food: { name: 'Ăn Uống', icon: <CoffeeOutlined />, color: '#1890ff' },
+      accommodation: { name: 'Lưu Trú', icon: <HomeOutlined />, color: '#52c41a' },
+      transport: { name: 'Di Chuyển', icon: <CarOutlined />, color: '#faad14' },
+      activities: { name: 'Hoạt Động', icon: <FundOutlined />, color: '#722ed1' },
+      other: { name: 'Khác', icon: <ShoppingOutlined />, color: '#eb2f96' },
+    };
+    const cat = categoryMap[item.category];
+    return {
+      key: item.category,
+      name: cat.name,
+      icon: cat.icon,
+      amount: item.current,
+      limit: item.limit,
+      icon_color: cat.color,
+    };
+  });
 
   return (
     <div className={styles.budget}>

@@ -11,6 +11,7 @@ import { Explore } from './Explore';
 import { CreateItinerary } from './CreateItinerary';
 import { BudgetManagement } from './BudgetManagement';
 import { Admin } from './Admin';
+import { Destination, BudgetAlert } from './models';
 import styles from './styles.less';
 
 const { Header, Content } = Layout;
@@ -18,6 +19,33 @@ const { Header, Content } = Layout;
 export default function TravelPlanningApp() {
   const [activeTab, setActiveTab] = useState('explore');
   const [mobileDrawerVisible, setMobileDrawerVisible] = useState(false);
+  const [selectedDestinations, setSelectedDestinations] = useState<Destination[]>([]);
+  const [budgetItems, setBudgetItems] = useState<BudgetAlert[]>([
+    { id: '1', category: 'food', limit: 500000, current: 0, exceeded: false },
+    { id: '2', category: 'accommodation', limit: 1000000, current: 0, exceeded: false },
+    { id: '3', category: 'transport', limit: 300000, current: 0, exceeded: false },
+    { id: '4', category: 'activities', limit: 200000, current: 0, exceeded: false },
+    { id: '5', category: 'other', limit: 100000, current: 0, exceeded: false },
+  ]);
+
+  const handleSelectDestination = (destination: Destination) => {
+    setSelectedDestinations(prev => {
+      if (prev.find(d => d.id === destination.id)) {
+        return prev.filter(d => d.id !== destination.id);
+      }
+      return [...prev, destination];
+    });
+  };
+
+  const handleUpdateBudget = (category: keyof BudgetAlert['category'], amount: number) => {
+    setBudgetItems(prev =>
+      prev.map(item =>
+        item.category === category
+          ? { ...item, current: item.current + amount, exceeded: item.current + amount > item.limit }
+          : item
+      )
+    );
+  };
 
   const tabItems = [
     {
@@ -28,7 +56,13 @@ export default function TravelPlanningApp() {
           Khám Phá
         </span>
       ),
-      children: <Explore selectable={true} />,
+      children: (
+        <Explore
+          selectable={true}
+          selectedDestinations={selectedDestinations}
+          onSelectDestination={handleSelectDestination}
+        />
+      ),
     },
     {
       key: 'itinerary',
@@ -38,7 +72,12 @@ export default function TravelPlanningApp() {
           Lịch Trình
         </span>
       ),
-      children: <CreateItinerary />,
+      children: (
+        <CreateItinerary
+          selectedDestinations={selectedDestinations}
+          onUpdateBudget={handleUpdateBudget}
+        />
+      ),
     },
     {
       key: 'budget',
@@ -48,7 +87,7 @@ export default function TravelPlanningApp() {
           Ngân Sách
         </span>
       ),
-      children: <BudgetManagement />,
+      children: <BudgetManagement budgetItems={budgetItems} />,
     },
     {
       key: 'admin',

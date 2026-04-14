@@ -94,6 +94,11 @@
 		name: 'TH06',
 		component: './TH06',
 	},
+	{
+		path: '/ktgk',
+		name: 'KTGK',
+		component: './Ktgk',
+	},
 
 	// DANH MUC HE THONG
 	// {

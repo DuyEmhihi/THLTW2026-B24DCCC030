@@ -20,9 +20,14 @@ import styles from './styles.less';
 interface ExploreProps {
   onSelectDestination?: (destination: Destination) => void;
   selectable?: boolean;
+  selectedDestinations?: Destination[];
 }
 
-export const Explore: React.FC<ExploreProps> = ({ onSelectDestination, selectable = false }) => {
+export const Explore: React.FC<ExploreProps> = ({
+  onSelectDestination,
+  selectable = false,
+  selectedDestinations = []
+}) => {
   const [searchText, setSearchText] = useState('');
   const [typeFilter, setTypeFilter] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 2000000]);

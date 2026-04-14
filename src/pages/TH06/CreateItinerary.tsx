@@ -29,13 +29,19 @@ import { Destination, Itinerary, ItineraryItem } from './models';
 import { mockDestinations } from './mockData';
 import styles from './styles.less';
 
-interface CreateItineraryProps {}
+interface CreateItineraryProps {
+  selectedDestinations?: Destination[];
+  onUpdateBudget?: (category: keyof BudgetBreakdown, amount: number) => void;
+}
 
-export const CreateItinerary: React.FC<CreateItineraryProps> = () => {
+export const CreateItinerary: React.FC<CreateItineraryProps> = ({
+  selectedDestinations = [],
+  onUpdateBudget
+}) => {
   const [form] = Form.useForm();
   const [itineraries, setItineraries] = useState<Itinerary[]>([]);
   const [currentItinerary, setCurrentItinerary] = useState<Itinerary | null>(null);
-  const [selectedDestinations, setSelectedDestinations] = useState<ItineraryItem[]>([]);
+  const [itineraryItems, setItineraryItems] = useState<ItineraryItem[]>([]);
   const [showForm, setShowForm] = useState(false);
 
   const calculateTravelTime = (dest1: Destination, dest2: Destination): number => {
@@ -73,15 +79,15 @@ export const CreateItinerary: React.FC<CreateItineraryProps> = () => {
       orderInDay: 1,
     };
 
-    setSelectedDestinations([...selectedDestinations, newItem]);
+    setItineraryItems([...itineraryItems, newItem]);
   };
 
   const handleRemoveDestination = (itemId: string) => {
-    setSelectedDestinations(selectedDestinations.filter((item) => item.id !== itemId));
+    setItineraryItems(itineraryItems.filter((item) => item.id !== itemId));
   };
 
   const handleCreateItinerary = async (values: any) => {
-    if (selectedDestinations.length === 0) {
+    if (itineraryItems.length === 0) {
       message.error('Vui lòng thêm ít nhất một địa điểm');
       return;
     }
@@ -90,7 +96,7 @@ export const CreateItinerary: React.FC<CreateItineraryProps> = () => {
     const endDate = values.dateRange[1];
     const totalDays = endDate.diff(startDate, 'day') + 1;
 
-    const totalCost = calculateTotalCost(selectedDestinations);
+    const totalCost = calculateTotalCost(itineraryItems);
 
     const newItinerary: Itinerary = {
       id: `iter-${Date.now()}`,
@@ -113,13 +119,13 @@ export const CreateItinerary: React.FC<CreateItineraryProps> = () => {
 
     setItineraries([...itineraries, newItinerary]);
     setCurrentItinerary(newItinerary);
-    setSelectedDestinations([]);
+    setItineraryItems([]);
     form.resetFields();
     setShowForm(false);
     message.success('Tạo lịch trình thành công!');
   };
 
-  const groupedByDay = selectedDestinations.reduce(
+  const groupedByDay = itineraryItems.reduce(
     (acc, item) => {
       if (!acc[item.day]) {
         acc[item.day] = [];
@@ -132,6 +138,36 @@ export const CreateItinerary: React.FC<CreateItineraryProps> = () => {
 
   return (
     <div className={styles.itinerary}>
+      {/* Selected Destinations from Explore */}
+      {selectedDestinations.length > 0 && (
+        <Card title="Địa Điểm Đã Chọn Từ Khám Phá" style={{ marginBottom: 16 }}>
+          <List
+            dataSource={selectedDestinations}
+            renderItem={(destination) => (
+              <List.Item
+                actions={[
+                  <Button
+                    type="primary"
+                    size="small"
+                    onClick={() => {
+                      const day = Object.keys(groupedByDay).length || 1;
+                      handleAddDestination(destination.id, parseInt(day));
+                    }}
+                  >
+                    Thêm vào Ngày {Object.keys(groupedByDay).length || 1}
+                  </Button>
+                ]}
+              >
+                <List.Item.Meta
+                  title={destination.name}
+                  description={`${destination.location} - ${destination.basePrice.toLocaleString()} VNĐ`}
+                />
+              </List.Item>
+            )}
+          />
+        </Card>
+      )}
+
       <Row gutter={16}>
         <Col xs={24} md={12}>
           <Card title="Tạo Lịch Trình Du Lịch" className={styles.formCard}>
@@ -191,7 +227,7 @@ export const CreateItinerary: React.FC<CreateItineraryProps> = () => {
 
         <Col xs={24} md={12}>
           <Card title="Địa Điểm Đã Chọn" className={styles.selectedCard}>
-            {selectedDestinations.length === 0 ? (
+            {itineraryItems.length === 0 ? (
               <Empty description="Chưa chọn địa điểm nào" />
             ) : (
               <div>
