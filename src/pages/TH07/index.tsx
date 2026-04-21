@@ -141,7 +141,7 @@ const BlogHome: React.FC = () => {
 
       {selectedTag && (
         <div className={styles.activeFilters}>
-          <span>Đang lọc theo thẻ: </span>
+          <span>Đang lọc thẻ: </span>
           <AntTag
             color="blue"
             closable
