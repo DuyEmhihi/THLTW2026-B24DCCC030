@@ -1,0 +1,184 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.backButton {
+  margin-bottom: 16px;
+}
+
+.postCard {
+  margin-bottom: 24px;
+
+  :global(.ant-card-body) {
+    padding: 32px;
+  }
+}
+
+.header {
+  margin-bottom: 24px;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: #666;
+
+  > div {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+}
+
+.tags {
+  :global(.ant-tag) {
+    margin-bottom: 8px;
+  }
+}
+
+.coverImage {
+  margin-bottom: 32px;
+  text-align: center;
+
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+}
+
+.content {
+  font-size: 16px;
+  line-height: 1.8;
+
+  :global(h1) {
+    font-size: 28px;
+    font-weight: 600;
+    margin: 24px 0 16px 0;
+  }
+
+  :global(h2) {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 20px 0 12px 0;
+  }
+
+  :global(h3) {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 16px 0 8px 0;
+  }
+
+  :global(p) {
+    margin-bottom: 16px;
+  }
+
+  :global(ul), :global(ol) {
+    margin-bottom: 16px;
+    padding-left: 24px;
+  }
+
+  :global(li) {
+    margin-bottom: 8px;
+  }
+
+  :global(code) {
+    background: #f5f5f5;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  }
+
+  :global(pre) {
+    background: #f5f5f5;
+    padding: 16px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 16px 0;
+
+    code {
+      background: none;
+      padding: 0;
+    }
+  }
+
+  :global(blockquote) {
+    border-left: 4px solid #ddd;
+    padding-left: 16px;
+    margin: 16px 0;
+    color: #666;
+    font-style: italic;
+  }
+}
+
+.relatedPosts {
+  :global(.ant-card-body) {
+    padding: 24px;
+  }
+}
+
+.relatedList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.relatedItem {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+
+  &:hover {
+    border-color: #1890ff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  img {
+    width: 80px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+}
+
+.relatedContent {
+  flex: 1;
+
+  h4 {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  p {
+    margin: 0 0 8px 0;
+    color: #666;
+    font-size: 14px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+.relatedMeta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #999;
+}

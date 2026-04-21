@@ -99,6 +99,39 @@
 		name: 'KTGK',
 		component: './Ktgk',
 	},
+	{
+		path: '/th07',
+		name: 'Blog Cá Nhân',
+		icon: 'BookOutlined',
+		routes: [
+			{
+				path: '/th07',
+				name: 'Trang chủ',
+				component: './TH07/index',
+			},
+			{
+				path: '/th07/detail/:slug',
+				name: 'Chi tiết bài viết',
+				component: './TH07/Detail',
+				hideInMenu: true,
+			},
+			{
+				path: '/th07/about',
+				name: 'Giới thiệu',
+				component: './TH07/About',
+			},
+			{
+				path: '/th07/management',
+				name: 'Quản lý bài viết',
+				component: './TH07/Management',
+			},
+			{
+				path: '/th07/tags',
+				name: 'Quản lý thẻ',
+				component: './TH07/TagManagement',
+			},
+		],
+	},
 
 	// DANH MUC HE THONG
 	// {
