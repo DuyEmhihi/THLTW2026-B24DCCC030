@@ -1,0 +1,47 @@
+.kanban-container {
+  width: 100%;
+  min-height: 600px;
+}
+
+.kanban-column {
+  min-height: 500px;
+  transition: background-color 0.2s ease;
+
+  &.drag-over {
+    background-color: #f0f2f5;
+  }
+}
+
+.task-card {
+  cursor: grab;
+  user-select: none;
+  transition: all 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  &.dragging {
+    opacity: 0.5;
+    transform: scale(0.98);
+  }
+
+  &.overdue {
+    border-color: #ff4d4f;
+    background-color: #fff1f0;
+  }
+}
+
+.task-form {
+  max-width: 400px;
+}
+
+@media (max-width: 768px) {
+  .kanban-column {
+    min-height: 300px;
+  }
+
+  .kanban-container {
+    flex-direction: column;
+  }
+}

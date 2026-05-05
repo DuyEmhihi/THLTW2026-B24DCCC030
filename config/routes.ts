@@ -101,7 +101,7 @@
 	},
 	{
 		path: '/th07',
-		name: 'Blog Cá Nhân',
+		name: 'TH07',
 		icon: 'BookOutlined',
 		routes: [
 			{
@@ -131,6 +131,12 @@
 				component: './TH07/TagManagement',
 			},
 		],
+	},
+	{
+		path: '/th09',
+		name: 'Quản lý công việc Kanban',
+		icon: 'CheckSquareOutlined',
+		component: './TH09',
 	},
 
 	// DANH MUC HE THONG
